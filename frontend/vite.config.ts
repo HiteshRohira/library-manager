@@ -5,6 +5,13 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+      },
+    },
+  },
   plugins: [react(), TanStackRouterVite()],
   resolve: {
     alias: {
@@ -15,13 +22,5 @@ export default defineConfig({
       '@/pages': path.resolve(__dirname, './src/pages'),
       '@/types': path.resolve(__dirname, './src/types'),
     },
-  },
-  server: {
-    port: 5173,
-    host: true,
-  },
-  preview: {
-    port: 4173,
-    host: true,
   },
 })

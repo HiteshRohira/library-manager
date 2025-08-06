@@ -160,6 +160,7 @@ yarn.lock
 *.db
 *.sqlite
 *.sqlite3
+postgres-data/
 
 # Certificate files
 *.pem
