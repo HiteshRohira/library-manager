@@ -8,4 +8,5 @@ import (
 type DatabaseRepo interface {
 	Connection() *sql.DB
 	AllBooks() ([]*models.Book, error)
+	GetUserByEmail(email string) (*models.User, error)
 }

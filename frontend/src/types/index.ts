@@ -29,3 +29,21 @@ export interface EnvVars {
   VITE_ENABLE_MOCK_API: string
   VITE_DEFAULT_LOCALE: string
 }
+
+// Authentication types
+export interface LoginRequest {
+  email: string
+  password: string
+}
+
+export interface LoginResponse {
+  token: string
+  refresh_token: string
+}
+
+export interface User {
+  id: number
+  first_name: string
+  last_name: string
+  email: string
+}
