@@ -13,8 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { loginUser } from '@/queries/login'
 import { toast } from 'sonner'
-import { useRouter } from '@tanstack/react-router'
-import type { LoginRequest } from '@/types'
+import { LoginResponse, type LoginRequest, type ApiError } from '@/types'
 import {
   Form,
   FormControl,
@@ -37,8 +36,12 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
-  const router = useRouter()
-  const { mutate, isPending } = useMutation({
+  // const router = useRouter()
+  const { mutate, isPending } = useMutation<
+    LoginResponse,
+    ApiError,
+    LoginFormData
+  >({
     mutationFn: loginUser,
   })
 
@@ -56,7 +59,9 @@ export function LoginForm({
       onError: (error, variables, context) => {
         // An error happened!
         console.log('oopsie an error', error, variables, context)
-        toast.error(error?.response?.data?.message || 'login failed')
+        toast.error(
+          error.response?.data?.message || 'Login failed. Please try again.'
+        )
       },
     })
   }

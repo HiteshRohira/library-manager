@@ -1,23 +1,32 @@
-export interface ApiResponse<T = any> {
-  success: boolean
+// Backend error response structure
+export interface JSONResponse<T = any> {
+  error: boolean
   message: string
   data?: T
 }
 
-export interface HealthResponse {
-  timestamp: string
-  version: string
-  status: string
+// For successful responses
+export interface ApiSuccess<T = any> extends JSONResponse<T> {
+  error: false
+  data: T
 }
 
-// Error types
-export interface ApiErrorResponse {
-  success: false
+// For error responses
+export interface ApiErrorRes extends JSONResponse {
+  error: true
   message: string
-  error?: string
 }
 
-export type ApiResult<T> = ApiResponse<T> | ApiErrorResponse
+// Custom error type for Axios errors with our API structure
+export interface ApiError {
+  response?: {
+    data?: ApiErrorRes
+    status?: number
+    statusText?: string
+  }
+  message: string
+  name: string
+}
 
 // Environment variables
 export interface EnvVars {

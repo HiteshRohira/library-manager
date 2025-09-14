@@ -14,8 +14,11 @@ func (app *application) routes() http.Handler {
 	mux.Use(middleware.Recoverer)
 	mux.Use(app.enableCors)
 
-	mux.Get("/home", app.Home)
+	mux.Get("/api/home", app.Home)
+
 	mux.Post("/api/authenticate", app.authenticate)
+	mux.Get("/api/refresh", app.refreshToken)
+
 	mux.Get("/api/books", app.AllBooks)
 
 	return mux
