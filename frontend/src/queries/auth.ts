@@ -30,3 +30,8 @@ export async function refreshToken(): Promise<string> {
     throw err
   }
 }
+
+export const logoutUser = async (): Promise<void> => {
+  const response = await axios.post('/api/logout')
+  return response.data
+}

@@ -18,6 +18,7 @@ func (app *application) routes() http.Handler {
 
 	mux.Post("/api/authenticate", app.authenticate)
 	mux.Get("/api/refresh", app.refreshToken)
+	mux.Post("/api/logout", app.logout)
 
 	mux.Get("/api/books", app.AllBooks)
 
