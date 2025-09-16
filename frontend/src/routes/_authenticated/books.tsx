@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/table'
 import { booksQueryOptions } from '@/queries/books'
 
-export const Route = createFileRoute('/books')({
+export const Route = createFileRoute('/_authenticated/books')({
   component: RouteComponent,
 })
 

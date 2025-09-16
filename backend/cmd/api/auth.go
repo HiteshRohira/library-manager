@@ -48,7 +48,7 @@ func (j *Auth) GenerateTokenPair(user *jwtUser) (TokenPairs, error) {
 	claims["typ"] = "JWT"
 
 	// Set the expiry for JWT
-	claims["exp"] = time.Now().UTC().Add(j.TokenExpiry).UTC()
+	claims["exp"] = time.Now().UTC().Add(j.TokenExpiry).Unix()
 
 	// Create a signed token
 	signedAccessToken, err := token.SignedString([]byte(j.Secret))
@@ -63,10 +63,10 @@ func (j *Auth) GenerateTokenPair(user *jwtUser) (TokenPairs, error) {
 	refreshTokenClaims["iat"] = time.Now().UTC().Unix()
 
 	// Set the expiry for refresh token
-	refreshTokenClaims["exp"] = time.Now().UTC().Add(j.TokenExpiry).UTC()
+	refreshTokenClaims["exp"] = time.Now().UTC().Add(j.RefreshExpiry).Unix()
 
 	// Create signed refresh token
-	signedRefreshToken, err := token.SignedString([]byte(j.Secret))
+	signedRefreshToken, err := refreshToken.SignedString([]byte(j.Secret))
 	if err != nil {
 		return TokenPairs{}, err
 	}

@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input'
 import { useForm, useFormState } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { loginUser } from '@/queries/login'
+import { loginUser } from '@/queries/auth'
 import { toast } from 'sonner'
 import { LoginResponse, type LoginRequest, type ApiError } from '@/types'
 import {
@@ -24,6 +24,8 @@ import {
 } from '../ui/form'
 import { useMutation } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
+import { setAccessToken } from '@/lib/access-token'
+import { useNavigate } from '@tanstack/react-router'
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -36,7 +38,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
-  // const router = useRouter()
+  const navigate = useNavigate()
   const { mutate, isPending } = useMutation<
     LoginResponse,
     ApiError,
@@ -53,8 +55,10 @@ export function LoginForm({
 
   const onSubmit = async (data: LoginFormData) => {
     return mutate(data, {
-      onSuccess: () => {
-        console.log('success')
+      onSuccess: res => {
+        console.log('successful login')
+        setAccessToken(res.token)
+        navigate({ to: '/books' })
       },
       onError: (error, variables, context) => {
         // An error happened!
