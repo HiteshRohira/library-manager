@@ -12,12 +12,12 @@ export const Route = createFileRoute('/_authenticated')({
       await refreshToken()
       return
     } catch {
-      // throw redirect({
-      //   to: '/login',
-      //   search: {
-      //     redirect: location.href,
-      //   },
-      // })
+      throw redirect({
+        to: '/login',
+        search: {
+          redirect: location.href,
+        },
+      })
     }
   },
   component: RouteComponent,
