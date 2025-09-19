@@ -1,26 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { RouterProvider } from '@tanstack/react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { routeTree } from './routeTree.gen'
+import router from '@/router'
 import { Toaster } from '@/components/ui/sonner'
 import './index.css'
 import '@/lib/axios'
-
-// Create a new router instance
-const router = createRouter({
-  routeTree,
-  context: {
-    accessToken: '',
-  },
-})
-
-// Register the router instance for type safety
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router
-  }
-}
 
 // Create a client for React Query
 const queryClient = new QueryClient({
