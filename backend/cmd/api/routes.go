@@ -14,13 +14,22 @@ func (app *application) routes() http.Handler {
 	mux.Use(middleware.Recoverer)
 	mux.Use(app.enableCors)
 
-	mux.Get("/api/home", app.Home)
+	mux.Route("/api", func(mux chi.Router) {
+		mux.Get("/home", app.Home)
 
-	mux.Post("/api/authenticate", app.authenticate)
-	mux.Get("/api/refresh", app.refreshToken)
-	mux.Post("/api/logout", app.logout)
+		mux.Post("/authenticate", app.authenticate)
+		mux.Get("/refresh", app.refreshToken)
+		mux.Post("/logout", app.logout)
 
-	mux.Get("/api/books", app.AllBooks)
+		mux.Get("/books", app.AllBooks)
+
+		mux.Route("/admin", func(mux chi.Router) {
+			mux.Use(app.authRequired)
+
+			// All routes post this have /admin
+			mux.Get("/books", app.BookCatalog)
+		})
+	})
 
 	return mux
 }

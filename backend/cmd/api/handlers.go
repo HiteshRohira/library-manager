@@ -129,3 +129,13 @@ func (app *application) logout(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, app.auth.GetExpiredRefreshCookie())
 	w.WriteHeader(http.StatusAccepted)
 }
+
+func (app *application) BookCatalog(w http.ResponseWriter, r *http.Request) {
+	books, err := app.DB.AllBooks()
+	if err != nil {
+		app.errorJson(w, err)
+		return
+	}
+
+	_ = app.writeJSON(w, http.StatusOK, books)
+}
